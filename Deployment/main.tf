@@ -22,4 +22,5 @@ module "lambda_function" {
   memory_size       = var.memory_size
   timeout           =  var.memory_size
   s3_bucket_upload_source_arn = var.s3_bucket_upload_source_arn
+  lambda_layer  = var.lambda_layer
 }

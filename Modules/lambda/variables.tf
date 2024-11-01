@@ -43,3 +43,8 @@ variable "memory_size"{
     description = "Enter the value in MB needed to execute the lambda"
     type = string
 }
+
+variable "lambda_layer"{
+  description = "ARN of the lambda layer"
+  type  = string
+}

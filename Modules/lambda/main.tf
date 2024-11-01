@@ -5,7 +5,7 @@ resource "aws_lambda_function" "lambda_function" {
   role          = var.role_arn           # IAM role ARN for Lambda execution
   memory_size = var.memory_size
   timeout   =   var.timeout
-  architectures  = ["arm64"]
+  architectures  = ["x86_64"]
   
   environment {
         variables = {
@@ -17,9 +17,9 @@ resource "aws_lambda_function" "lambda_function" {
   s3_bucket = var.lambda_zip_bucket            # S3 bucket where Lambda zip is stored
   s3_key    = "lambda/lambda_function.zip"       # Path to the Lambda package in S3 (can be environment-specific)
 
-  # layers = [
-  #   aws_lambda_layer_version.lambda_layer.arn  # Attach the layer here
-  # ]
+  layers = [
+    var.lambda_layer  # Attach the layer here
+  ]
 
   tags = {
     Name        = var.function_name      # Tagging Lambda function with environment
@@ -51,10 +51,20 @@ resource "null_resource" "package_lambda" {
 #   depends_on = [null_resource.package_lambda]
 # }
 
-# resource "aws_lambda_layer_version" "lambda_layer" {
-#   layer_name          = "lambda_dependencies_layer"
+resource "aws_lambda_layer_version" "lambda_layer_1" {
+  layer_name          = "lambda_dependencies_layer_1"
+  s3_bucket           = var.lambda_zip_bucket
+  s3_key              = "layers/lambda_dependencies_1.zip"
+  # filename            = "../Modules/layers/lambda_dependencies.zip"
+  compatible_runtimes = ["python3.12"]
+  compatible_architectures  = ["x86_64"]
+  depends_on = [null_resource.package_lambda]
+}
+
+# resource "aws_lambda_layer_version" "lambda_layer_2" {
+#   layer_name          = "lambda_dependencies_layer_2"
 #   s3_bucket           = var.lambda_zip_bucket
-#   s3_key              = "layers/lambda_dependencies.zip"
+#   s3_key              = "layers/lambda_dependencies_2.zip"
 #   # filename            = "../Modules/layers/lambda_dependencies.zip"
 #   compatible_runtimes = ["python3.12"]
 #   compatible_architectures  = ["x86_64"]
@@ -68,3 +78,4 @@ resource "aws_lambda_permission" "s3" {
   principal     = "s3.amazonaws.com"
   source_arn    = var.s3_bucket_upload_source_arn
 }
+

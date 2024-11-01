@@ -62,3 +62,8 @@ variable "s3_bucket_upload_source_arn" {
   description = "arn of the s3 source bucket from which the file is uploaded"
   type        = string
 }
+
+variable "lambda_layer"{
+  description = "ARN of the lambda layer"
+  type  = string
+}

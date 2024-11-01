@@ -5,4 +5,8 @@ Modules/lambda_code/
 .terraform/*
 .terraform.*
 ../Modules/Deployment/.terraform/*
+
+../Modules/lambda-docker-terraform/.terraform/*
+../Modules/lambda-docker-terraform/.terraform.*
+../Modules/lambda-docker-terraform/terraform.*
 .venv

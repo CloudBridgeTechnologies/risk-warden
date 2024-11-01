@@ -1,4 +1,0 @@
-pypdf
-langchain
-faiss-cpu
-langchain_community
